@@ -52,12 +52,12 @@ function parseBooleen(valeur) {
 // Constants for validation
 const JOUR_MIN = 1;
 const JOUR_MAX = 7;
-
+// Function to validate the result of an apprenant for a specific day
 function validerResultat(jour, exercicesTermines, totalExercices, challengeTermine) {
   const j = parseEntier(jour);
   const et = parseEntier(exercicesTermines);
   const tt = parseEntier(totalExercices);
-
+// Validate the inputs
   if (Number.isNaN(j) || j < JOUR_MIN || j > JOUR_MAX) {    // Check if the day number is valid
     return { valide: false, erreur: `Le numéro du jour doit être un entier compris entre ${JOUR_MIN} et ${JOUR_MAX}.` }; 
   }
@@ -77,4 +77,24 @@ function validerResultat(jour, exercicesTermines, totalExercices, challengeTermi
   return { valide: true, jour: j, exercicesTermines: et, totalExercices: tt }; // Return the validated result if all checks pass    
 }
 
+
+
+
+function genererId() {
+  return apprenants.reduce((max, a) => Math.max(max, a.id), 0) + 1; // Find the maximum existing ID and add 1 to generate a new unique ID
+}
+
+function ajouterApprenant(id, nomComplet, ville) { // Function to add a new apprenant
+  const identifiant = (typeof id === "string" && id.trim() === "") ? genererId() : parseEntier(id); // Generate a new ID if the input ID is an empty string, otherwise parse the input ID
+
+  if (Number.isNaN(identifiant) || identifiant <= 0) {  // Check if the parsed ID is a valid positive integer
+    return { succes: false, erreur: "L'identifiant doit être un entier supérieur à 0 (ou vide pour une attribution automatique)." }; // Return an error if the ID is invalid
+  }
+  if (apprenants.some(a => a.id === identifiant)) {   // Check if an apprenant with the same ID already exists
+    return { succes: false, erreur: `Un apprenant avec l'identifiant ${identifiant} existe déjà.` }; // Return an error if the ID is already taken
+  }
+  if (typeof nomComplet !== "string" || nomComplet.trim() === "") {  // Check if the full name is a non-empty string
+    return { succes: false, erreur: "Le nom complet est obligatoire." };  // Return an error if the full name is missing
+  }
+}
 
