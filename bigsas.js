@@ -29,3 +29,15 @@ function normaliserTexte(texte) {
     .replace(/[\u0300-\u036f]/g, "")   // Remove accents
     .replace(/\s+/g, " ");            // Replace multiple spaces with a single space
 }
+
+
+// Function to parse an integer from a string or number
+function parseEntier(valeur) {
+  if (typeof valeur === "number") {         // Check if the input is a number
+    return Number.isInteger(valeur) ? valeur : NaN; // Return the number if it's an integer, otherwise return NaN
+  }
+  if (typeof valeur !== "string" || valeur.trim() === "") return NaN;  // Check if the input is a non-empty string
+  const nombre = Number(valeur.trim());                // Convert the trimmed string to a number
+  return Number.isInteger(nombre) ? nombre : NaN;    // Return the number if it's an integer, otherwise return NaN
+}
+
