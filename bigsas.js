@@ -48,3 +48,33 @@ function parseBooleen(valeur) {
   return null; // Return null if the input value doesn't match any true or false values
 }
 
+
+// Constants for validation
+const JOUR_MIN = 1;
+const JOUR_MAX = 7;
+
+function validerResultat(jour, exercicesTermines, totalExercices, challengeTermine) {
+  const j = parseEntier(jour);
+  const et = parseEntier(exercicesTermines);
+  const tt = parseEntier(totalExercices);
+
+  if (Number.isNaN(j) || j < JOUR_MIN || j > JOUR_MAX) {    // Check if the day number is valid
+    return { valide: false, erreur: `Le numéro du jour doit être un entier compris entre ${JOUR_MIN} et ${JOUR_MAX}.` }; 
+  }
+  if (Number.isNaN(tt) || tt <= 0) {  // Check if the total number of exercises is valid
+    return { valide: false, erreur: "Le total d'exercices proposés doit être un entier supérieur à 0." };
+  }
+  if (Number.isNaN(et) || et < 0) {  // Check if the number of completed exercises is valid
+    return { valide: false, erreur: "Le nombre d'exercices terminés doit être un entier positif ou nul." };
+  }
+  if (et > tt) { // Check if the number of completed exercises exceeds the total number of exercises
+    return { valide: false, erreur: "Le nombre d'exercices terminés ne peut pas dépasser le nombre d'exercices proposés." };
+  }
+  if (typeof challengeTermine !== "boolean") { // Check if the challenge status is a boolean
+    return { valide: false, erreur: "Le statut du challenge doit être un booléen (oui / non)." };
+  }
+
+  return { valide: true, jour: j, exercicesTermines: et, totalExercices: tt }; // Return the validated result if all checks pass    
+}
+
+
