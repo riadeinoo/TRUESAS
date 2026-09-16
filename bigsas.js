@@ -19,13 +19,13 @@ const apprenants = [
   }
 ];
 
-
+// Function to normalize text
 function normaliserTexte(texte) {
-  if (typeof texte !== "string") return "";   
-  return texte
-    .trim()                           
-    .toLowerCase()                     
-    .normalize("NFD")                  
-    .replace(/[\u0300-\u036f]/g, "")  
-    .replace(/\s+/g, " ");            
+  if (typeof texte !== "string") return "";    // Check if the input is a string
+  return texte                                 
+    .trim()                             // Remove leading and trailing whitespace
+    .toLowerCase()                     // Convert to lowercase
+    .normalize("NFD")                  // Decompose combined letters into base letters
+    .replace(/[\u0300-\u036f]/g, "")   // Remove accents
+    .replace(/\s+/g, " ");            // Replace multiple spaces with a single space
 }
