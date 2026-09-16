@@ -41,3 +41,10 @@ function parseEntier(valeur) {
   return Number.isInteger(nombre) ? nombre : NaN;    // Return the number if it's an integer, otherwise return NaN
 }
 
+function parseBooleen(valeur) {
+  const texte = normaliserTexte(valeur);   // Normalize the input value
+  if (["oui", "o", "yes", "y", "true", "1"].includes(texte)) return true;   // Check if the normalized text is in the list of true values
+  if (["non", "n", "no", "false", "0"].includes(texte)) return false;   // Check if the normalized text is in the list of false values
+  return null; // Return null if the input value doesn't match any true or false values
+}
+
