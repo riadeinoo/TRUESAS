@@ -96,5 +96,16 @@ function ajouterApprenant(id, nomComplet, ville) { // Function to add a new appr
   if (typeof nomComplet !== "string" || nomComplet.trim() === "") {  // Check if the full name is a non-empty string
     return { succes: false, erreur: "Le nom complet est obligatoire." };  // Return an error if the full name is missing
   }
+  const villeNettoyee = typeof ville === "string" ? ville.trim().replace(/\s+/g, " ") : ""; // Clean up the city name by trimming whitespace and replacing multiple spaces with a single space
+  const nouvelApprenant = {  // Create a new apprenant object
+    id: identifiant,
+    nomComplet: nomComplet.trim().replace(/\s+/g, " "),   // Clean up the full name by trimming whitespace and replacing multiple spaces with a single space
+    ville: villeNettoyee === "" ? "Non spécifiée" : villeNettoyee,  // Set the city name to "Non spécifiée" if it's empty after cleaning
+    resultats: []
+  };
+
+  apprenants.push(nouvelApprenant);  // Add the new apprenant to the list of apprenants
+  return { succes: true, apprenant: nouvelApprenant };  // Return a success message along with the new apprenant object
 }
+
 
