@@ -34,3 +34,23 @@ function normaliserNom(nom) {
   }
   return resultat.trim();
 }
+
+
+
+
+// 2. validerResultat : Vérifier les valeurs d'un résultat journalier
+function validerResultat(jour, exercicesTermines, totalExercices) {
+  if (jour < 1 || jour > 7) {
+    console.log("Erreur : Le numéro du jour doit être compris entre 1 et 7.");
+    return false;
+  }
+  if (exercicesTermines < 0 || totalExercices <= 0) {
+    console.log("Erreur : Les nombres d'exercices doivent être positifs.");
+    return false;
+  }
+  if (exercicesTermines > totalExercices) {
+    console.log("Erreur : Le nombre d'exercices terminés ne peut pas dépasser le total proposé.");
+    return false;
+  }
+  return true;
+}
