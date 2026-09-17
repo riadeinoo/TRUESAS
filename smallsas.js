@@ -21,7 +21,7 @@ const apprenants = [
   }
 ];
 
-// 1. normaliserNom : Nettoyer et uniformiser un nom
+// 1. normaliserNom : Nettoyer sans majuscules forcées
 function normaliserNom(nom) {
   if (!nom) return "";
   let propre = nom.trim().toLowerCase();
@@ -29,7 +29,7 @@ function normaliserNom(nom) {
   let resultat = "";
   for (let i = 0; i < mots.length; i++) {
     if (mots[i].length > 0) {
-      resultat +=mots[i][0] + mots[i].slice(1) + " ";
+      resultat += mots[i] + " ";
     }
   }
   return resultat.trim();
@@ -104,4 +104,41 @@ function ajouterApprenant(id, nomComplet, ville) {
   return true;
 }
 
+// 5. enregistrerResultat : Ajouter ou mettre à jour une journée
+function enregistrerResultat(id, jour, exercicesTermines, totalExercices, challengeTermine) {
+  if (!validerResultat(jour, exercicesTermines, totalExercices)) return false;
 
+  let cible = null;
+  for (let i = 0; i < apprenants.length; i++) {
+    if (apprenants[i].id === id) {
+      cible = apprenants[i];
+      break;
+    }
+  }
+
+  if (!cible) {
+    console.log("Erreur : Apprenant non trouvé.");
+    return false;
+  }
+
+  let jourExiste = false;
+  for (let i = 0; i < cible.resultats.length; i++) {
+    if (cible.resultats[i].jour === jour) {
+      cible.resultats[i].exercicesTermines = exercicesTermines;
+      cible.resultats[i].totalExercices = totalExercices;
+      cible.resultats[i].challengeTermine = challengeTermine;
+      jourExiste = true;
+      break;
+    }
+  }
+
+  if (!jourExiste) {
+    cible.resultats.push({ jour, exercicesTermines, totalExercices, challengeTermine });
+  }
+
+  console.log("Résultat du jour " + jour + " enregistré pour " + cible.nomComplet + ".");
+  let prog = calculerProgression(cible);
+  console.log(cible.nomComplet + ": " + prog.totalTermines + "/" + prog.totalProposes + " exercices, progression " + prog.pourcentage + "%.");
+  console.log(prog.journeesRenseignees + " journées renseignées, " + prog.challengesTermines + " challenges terminés.");
+  return true;
+}
