@@ -87,3 +87,4 @@ function calculerProgression(apprenant) {
 }
 
 
+//test
