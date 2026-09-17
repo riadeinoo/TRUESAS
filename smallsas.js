@@ -86,5 +86,22 @@ function calculerProgression(apprenant) {
   };
 }
 
+// 4. ajouterApprenant : Ajouter en contrôlant les doublons d'ID
+function ajouterApprenant(id, nomComplet, ville) {
+  for (let i = 0; i < apprenants.length; i++) {
+    if (apprenants[i].id === id) {
+      console.log("Erreur : Cet identifiant existe déjà.");
+      return false;
+    }
+  }
+  apprenants.push({
+    id: id,
+    nomComplet: normaliserNom(nomComplet),
+    ville: ville ? ville.trim() : "",
+    resultats: []
+  });
+  console.log("Apprenant ajouté avec succès !");
+  return true;
+}
 
-//test
+
