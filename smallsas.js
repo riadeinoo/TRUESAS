@@ -142,3 +142,15 @@ function enregistrerResultat(id, jour, exercicesTermines, totalExercices, challe
   console.log(prog.journeesRenseignees + " journées renseignées, " + prog.challengesTermines + " challenges terminés.");
   return true;
 }
+
+// 6. rechercherApprenant : Par ID ou par nom partiel (sans casse)
+function rechercherApprenantParNom(terme) {
+  let resultatRecherche = [];
+  let recherchePropre = terme.trim().toLowerCase();
+  for (let i = 0; i < apprenants.length; i++) {
+    if (apprenants[i].nomComplet.toLowerCase().includes(recherchePropre)) {
+      resultatRecherche.push(apprenants[i]);
+    }
+  }
+  return resultatRecherche;
+}
