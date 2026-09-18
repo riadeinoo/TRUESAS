@@ -115,4 +115,38 @@ function actionTrierAlphabet() {
   }
   console.log("");
 }
+
+
+// Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
+async function demarrer() {
+  let continuer = true;
  
+  while (continuer) {
+    let choix = await afficherMenu();
+ 
+    if (choix === "1") {
+      fonctions.afficherTableauDeBord(apprenants);
+    } else if (choix === "2") {
+      afficherListe();
+    } else if (choix === "3") {
+      await actionAjouter();
+    } else if (choix === "4") {
+      await actionConsulter();
+    } else if (choix === "5") {
+      await actionEnregistrer();
+    } else if (choix === "6") {
+      await actionRecherche();
+    } else if (choix === "7") {
+      await actionFiltrer();
+    } else if (choix === "8") {
+      actionTrierProgression();
+    } else if (choix === "9") {
+      actionTrierAlphabet();
+    } else if (choix === "0") {
+      console.log("Fermeture du programme. Au revoir !");
+      continuer = false;
+    } else {
+      console.log("Choix invalide, veuillez réessayer.\n");
+    }
+  }
+}
