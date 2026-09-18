@@ -35,7 +35,7 @@ function validerResultat(jour, exercicesTermines, totalExercices) {
   return true;
 }
 
-// 3. Calcule tous les indicateurs de progression d'un apprenant
+// 3. Calcule tous les indicateurs de progression d'un apprenant.
 function calculerProgression(apprenant) {
   let totalTermines = 0;
   let totalProposes = 0;
