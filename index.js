@@ -116,6 +116,43 @@ function actionTrierAlphabet() {
   console.log("");
 }
 
+// Action pour enregistrer le résultat d'une journée pour un apprenant
+async function actionEnregistrer() {
+  let idTexte = await rl.question("Identifiant de l'apprenant : ");
+  let id = parseInt(idTexte);
+  let apprenant = fonctions.trouverParId(apprenants, id);
+
+  if (!apprenant) {
+    console.log("Erreur : apprenant non trouvé.\n");
+    return;
+  }
+  console.log("Apprenant trouvé : " + apprenant.nomComplet);
+
+  let jourTexte = await rl.question("Jour (1 à 7) : ");
+  let exercicesTexte = await rl.question("Exercices terminés : ");
+  let totalTexte = await rl.question("Total d'exercices proposés : ");
+  let challengeTexte = await rl.question("Challenge terminé ? (oui/non) : ");
+
+  let jour = parseInt(jourTexte);
+  let exercicesTermines = parseInt(exercicesTexte);
+  let totalExercices = parseInt(totalTexte);
+  let challengeTermine = challengeTexte.trim().toLowerCase() === "oui";
+
+  console.log("");
+  fonctions.enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExercices, challengeTermine);
+  console.log("");
+}
+
+// Action pour trier les apprenants par progression décroissante
+function actionTrierProgression() {
+  let tri = fonctions.trierParProgression(apprenants);
+  console.log("\n--- TRI PAR PROGRESSION DÉCROISSANTE ---");
+  for (let i = 0; i < tri.length; i++) {
+    let prog = fonctions.calculerProgression(tri[i]);
+    console.log((i + 1) + ". " + tri[i].nomComplet + " - " + prog.pourcentage + "% (" + prog.niveau + ")");
+  }
+  console.log("");
+}
 
 // Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
 async function demarrer() {
