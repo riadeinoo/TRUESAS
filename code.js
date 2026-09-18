@@ -45,3 +45,24 @@ function calculerProgression(apprenant) {
     }
   }
 }
+
+
+// 4. Ajoute un apprenant en refusant les identifiants déjà utilisés
+function ajouterApprenant(apprenants, id, nomComplet, ville) {
+  for (let i = 0; i < apprenants.length; i++) {
+    if (apprenants[i].id === id) {
+      console.log("Erreur : cet identifiant existe déjà.");
+      return false;
+    }
+  }
+  let nouvelApprenant = {
+    id: id,
+    nomComplet: normaliserNom(nomComplet),
+    ville: ville ? ville.trim() : "",
+    resultats: []
+  };
+
+  apprenants.push(nouvelApprenant);
+  console.log("Apprenant ajouté avec succès !");
+  return true;
+}
