@@ -78,5 +78,17 @@ async function actionConsulter() {
   console.log("Challenges terminés : " + prog.challengesTermines);
   console.log("Journées renseignées : " + prog.journeesRenseignees + "\n");
 }
-
+// Action pour rechercher un apprenant par nom
+async function actionRecherche() {
+  let terme = await rl.question("Entrez tout ou partie du nom à rechercher : ");
+  let resultats = fonctions.rechercherParNom(apprenants, terme);
+ 
+  console.log("\n--- RÉSULTATS DE RECHERCHE (" + resultats.length + ") ---");
+  for (let i = 0; i < resultats.length; i++) {
+    let apprenant = resultats[i];
+    let prog = fonctions.calculerProgression(apprenant);
+    console.log("- ID: " + apprenant.id + " | Nom: " + apprenant.nomComplet + " | " + prog.pourcentage + "% (" + prog.niveau + ")");
+  }
+  console.log("");
+}
 
