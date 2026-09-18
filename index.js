@@ -26,4 +26,36 @@ async function afficherMenu() {
   let choix = await rl.question("Votre choix : ");
   return choix.trim();
 }
+
+
+// Affiche le tableau de bord complet du groupe
+function afficherListe() {
+  console.log("\n--- LISTE DES APPRENANTS ---");
+  for (let i = 0; i < apprenants.length; i++) {
+    let apprenant = apprenants[i];
+    let prog = fonctions.calculerProgression(apprenant);
+    console.log(
+      "ID: " + apprenant.id + " | Nom: " + apprenant.nomComplet +
+      " | Ville: " + apprenant.ville + " | Progression: " + prog.pourcentage + "% (" + prog.niveau + ")"
+    );
+  }
+  console.log("");
+}
+
+
+// Action pour ajouter un apprenant
+async function actionAjouter() {
+  let idTexte = await rl.question("Identifiant de l'apprenant (nombre) : ");
+  let id = parseInt(idTexte);
+  if (isNaN(id)) {
+    console.log("Erreur : identifiant invalide.\n");
+    return;
+  }
+  let nom = await rl.question("Nom complet : ");
+  let ville = await rl.question("Ville : ");
+  fonctions.ajouterApprenant(apprenants, id, nom, ville);
+  console.log("");
+}
  
+
+
