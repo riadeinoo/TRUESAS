@@ -37,6 +37,10 @@ function normaliserNom(nom) {
 
 // 2. validerResultat : Vérifier les valeurs d'un résultat journalier
 function validerResultat(jour, exercicesTermines, totalExercices) {
+  if (!Number.isInteger(jour) || !Number.isInteger(exercicesTermines) || !Number.isInteger(totalExercices)) {
+    console.log("Erreur : Le jour, les exercices terminés et le total doivent être des nombres entiers.");
+    return false;
+  }
   if (jour < 1 || jour > 7) {
     console.log("Erreur : Le numéro du jour doit être compris entre 1 et 7.");
     return false;
@@ -167,3 +171,16 @@ function filtrerParNiveau(niveauVise) {
   return resultatFiltre;
 }
 
+// 8. Tri par progression décroissante
+function trierParProgression() {
+  let copie = [...apprenants];
+  copie.sort((a, b) => calculerProgression(b).pourcentage - calculerProgression(a).pourcentage);
+  return copie;
+}
+
+// 9. Tri alphabétique
+function trierParAlphabet() {
+  let copie = [...apprenants];
+  copie.sort((a, b) => a.nomComplet.localeCompare(b.nomComplet));
+  return copie;
+}
