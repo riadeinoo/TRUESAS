@@ -155,12 +155,13 @@ function actionTrierProgression() {
 }
 
 // Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
+// Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
 async function demarrer() {
   let continuer = true;
- 
+
   while (continuer) {
     let choix = await afficherMenu();
- 
+
     if (choix === "1") {
       fonctions.afficherTableauDeBord(apprenants);
     } else if (choix === "2") {
@@ -186,4 +187,8 @@ async function demarrer() {
       console.log("Choix invalide, veuillez réessayer.\n");
     }
   }
+
+  rl.close();   // <- ferme proprement l'entrée clavier une fois la boucle terminée
 }
+
+demarrer();      // <- lance vraiment le programme ; sans cette ligne, rien ne se passe
