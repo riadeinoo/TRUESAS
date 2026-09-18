@@ -46,7 +46,6 @@ function calculerProgression(apprenant) {
   }
 }
 
-
 // 4. Ajoute un apprenant en refusant les identifiants déjà utilisés
 function ajouterApprenant(apprenants, id, nomComplet, ville) {
   for (let i = 0; i < apprenants.length; i++) {
@@ -66,3 +65,54 @@ function ajouterApprenant(apprenants, id, nomComplet, ville) {
   console.log("Apprenant ajouté avec succès !");
   return true;
 }
+
+// 5. Retrouve un apprenant à partir de son identifiant
+function trouverParId(apprenants, id) {
+  for (let i = 0; i < apprenants.length; i++) {
+    if (apprenants[i].id === id) {
+      return apprenants[i];
+    }
+  }
+  return null;
+}
+ 
+// 6. Ajoute le résultat d'une journée, ou le remplace s'il existe déjà
+function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExercices, challengeTermine) {
+  let valide = validerResultat(jour, exercicesTermines, totalExercices);
+  if (!valide) {
+    return false;
+  }
+ 
+  let apprenant = trouverParId(apprenants, id);
+  if (!apprenant) {
+    console.log("Erreur : apprenant introuvable.");
+    return false;
+  }
+ 
+  let journeeDejaPresente = false;
+  for (let i = 0; i < apprenant.resultats.length; i++) {
+    if (apprenant.resultats[i].jour === jour) {
+      apprenant.resultats[i].exercicesTermines = exercicesTermines;
+      apprenant.resultats[i].totalExercices = totalExercices;
+      apprenant.resultats[i].challengeTermine = challengeTermine;
+      journeeDejaPresente = true;
+    }
+  }
+ 
+  if (!journeeDejaPresente) {
+    apprenant.resultats.push({
+      jour: jour,
+      exercicesTermines: exercicesTermines,
+      totalExercices: totalExercices,
+      challengeTermine: challengeTermine
+    });
+  }
+ 
+  let prog = calculerProgression(apprenant);
+  console.log("Résultat du jour " + jour + " enregistré pour " + apprenant.nomComplet + ".");
+  console.log(apprenant.nomComplet + " : " + prog.totalTermines + "/" + prog.totalProposes + " exercices, progression " + prog.pourcentage + "%.");
+  console.log(prog.journeesRenseignees + " journées renseignées, " + prog.challengesTermines + " challenges terminés.");
+  return true;
+}
+
+
