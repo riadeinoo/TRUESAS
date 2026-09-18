@@ -57,5 +57,26 @@ async function actionAjouter() {
   console.log("");
 }
  
+// Action pour consulter un apprenant par identifiant
+async function actionConsulter() {
+  let idTexte = await rl.question("Identifiant de l'apprenant à consulter : ");
+  let id = parseInt(idTexte);
+  let apprenant = fonctions.trouverParId(apprenants, id);
+ 
+  if (!apprenant) {
+    console.log("Apprenant introuvable.\n");
+    return;
+  }
+ 
+  let prog = fonctions.calculerProgression(apprenant);
+  console.log("\n--- FICHE APPRENANT ---");
+  console.log("ID : " + apprenant.id);
+  console.log("Nom : " + apprenant.nomComplet);
+  console.log("Ville : " + apprenant.ville);
+  console.log("Progression : " + prog.pourcentage + "% (" + prog.totalTermines + "/" + prog.totalProposes + " exercices)");
+  console.log("Niveau : " + prog.niveau);
+  console.log("Challenges terminés : " + prog.challengesTermines);
+  console.log("Journées renseignées : " + prog.journeesRenseignees + "\n");
+}
 
 
