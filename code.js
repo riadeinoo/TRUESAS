@@ -1,5 +1,5 @@
-//functions 
 
+//nettoie et normalie les noms
 function normaliserNom(nom) {
   if (!nom) {
     return "";
@@ -147,3 +147,74 @@ function trierParProgression(apprenants) {
   });
   return copie;
 }
+
+// 10. Affiche le tableau de bord complet du groupe
+function afficherTableauDeBord(apprenants) {
+  console.log("\n========================================");
+  console.log("      TABLEAU DE BORD - SAS CONSOLE");
+  console.log("========================================");
+  console.log("Nombre total d'apprenants : " + apprenants.length);
+ 
+  let listeTriee = trierParProgression(apprenants);
+  let totalPourcentages = 0;
+  let nombreSolide = 0;
+  let nombreEnProgression = 0;
+  let nombreARenforcer = 0;
+ 
+  for (let i = 0; i < listeTriee.length; i++) {
+    let apprenant = listeTriee[i];
+    let prog = calculerProgression(apprenant);
+    totalPourcentages = totalPourcentages + prog.pourcentage;
+ 
+    if (prog.niveau === "Solide") {
+      nombreSolide++;
+    } else if (prog.niveau === "En progression") {
+      nombreEnProgression++;
+    } else {
+      nombreARenforcer++;
+    }
+ 
+    // On cherche les jours (1 à 7) qui n'ont pas encore de résultat
+    let joursRenseignes = [];
+    for (let j = 0; j < apprenant.resultats.length; j++) {
+      joursRenseignes.push(apprenant.resultats[j].jour);
+    }
+    let joursManquants = [];
+    for (let jour = 1; jour <= 7; jour++) {
+      if (joursRenseignes.indexOf(jour) === -1) {
+        joursManquants.push(jour);
+      }
+    }
+ 
+    console.log(
+      "- " + apprenant.nomComplet + " (" + apprenant.ville + ") : " +
+      prog.totalTermines + "/" + prog.totalProposes + " (" + prog.pourcentage + "%) | " +
+      "Niveau : " + prog.niveau + " | Jours manquants : [" + joursManquants.join(", ") + "] | " +
+      "Challenges terminés : " + prog.challengesTermines
+    );
+  }
+ 
+  let moyenneGroupe = 0;
+  if (apprenants.length > 0) {
+    moyenneGroupe = Math.round(totalPourcentages / apprenants.length);
+  }
+ 
+  console.log("----------------------------------------");
+  console.log("Progression moyenne du groupe : " + moyenneGroupe + "%");
+  console.log("Solide : " + nombreSolide + " | En progression : " + nombreEnProgression + " | À renforcer : " + nombreARenforcer);
+  console.log("========================================\n");
+}
+ 
+module.exports = {
+  normaliserNom,
+  validerResultat,
+  calculerProgression,
+  ajouterApprenant,
+  trouverParId,
+  enregistrerResultat,
+  rechercherParNom,
+  trierParProgression,
+  trierParAlphabet,
+  afficherTableauDeBord
+};
+ 
