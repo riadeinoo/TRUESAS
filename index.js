@@ -92,3 +92,17 @@ async function actionRecherche() {
   console.log("");
 }
 
+// Action pour filtrer les apprenants par niveau
+async function actionFiltrer() {
+  console.log("Niveaux disponibles : Solide, En progression, À renforcer");
+  let niveau = await rl.question("Entrez le niveau souhaité : ");
+  let resultats = fonctions.filtrerParNiveau(apprenants, niveau);
+ 
+  console.log("\n--- FILTRE : " + niveau.toUpperCase() + " (" + resultats.length + ") ---");
+  for (let i = 0; i < resultats.length; i++) {
+    let prog = fonctions.calculerProgression(resultats[i]);
+    console.log("- " + resultats[i].nomComplet + " : " + prog.pourcentage + "%");
+  }
+  console.log("");
+}
+ 
