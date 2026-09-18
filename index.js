@@ -105,4 +105,14 @@ async function actionFiltrer() {
   }
   console.log("");
 }
+
+// Action pour trier les apprenants par ordre alphabétique
+function actionTrierAlphabet() {
+  let tri = fonctions.trierParAlphabet(apprenants);
+  console.log("\n--- TRI PAR ORDRE ALPHABÉTIQUE ---");
+  for (let i = 0; i < tri.length; i++) {
+    console.log((i + 1) + ". " + tri[i].nomComplet + " (" + tri[i].ville + ")");
+  }
+  console.log("");
+}
  
