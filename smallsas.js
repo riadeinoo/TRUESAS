@@ -154,3 +154,16 @@ function rechercherApprenantParNom(terme) {
   }
   return resultatRecherche;
 }
+
+// 7. filtrerParNiveau : Sélectionner les profils d'un niveau donné
+function filtrerParNiveau(niveauVise) {
+  let resultatFiltre = [];
+  for (let i = 0; i < apprenants.length; i++) {
+    let prog = calculerProgression(apprenants[i]);
+    if (prog.niveau.toLowerCase() === niveauVise.toLowerCase()) {
+      resultatFiltre.push(apprenants[i]);
+    }
+  }
+  return resultatFiltre;
+}
+
