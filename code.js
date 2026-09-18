@@ -129,3 +129,14 @@ function rechercherParNom(apprenants, terme) {
   return resultats;
 }
 
+
+// 9. Trie une copie de la liste, du pourcentage le plus haut au plus bas
+function trierParProgression(apprenants) {
+  let copie = apprenants.slice();
+  copie.sort(function (a, b) {
+    let progA = calculerProgression(a).pourcentage;
+    let progB = calculerProgression(b).pourcentage;
+    return progB - progA;
+  });
+  return copie;
+}
