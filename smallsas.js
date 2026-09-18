@@ -171,7 +171,7 @@ function filtrerParNiveau(niveauVise) {
   return resultatFiltre;
 }
 
-// 8. Tri par progression décroissante
+// 8. Tri par progression decroissante
 function trierParProgression() {
   let copie = [...apprenants];
   copie.sort((a, b) => calculerProgression(b).pourcentage - calculerProgression(a).pourcentage);
