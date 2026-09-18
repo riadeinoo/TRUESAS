@@ -162,6 +162,16 @@ function trierParAlphabet(apprenants) {
   });
   return copie;
 }
+function filtrerParNiveau(apprenants, niveauVoulu) {
+  let resultats = [];
+  for (let i = 0; i < apprenants.length; i++) {
+    let prog = calculerProgression(apprenants[i]);
+    if (prog.niveau.toLowerCase() === niveauVoulu.trim().toLowerCase()) {
+      resultats.push(apprenants[i]);
+    }
+  }
+  return resultats;
+}
 
 // 9. Trie une copie de la liste, du pourcentage le plus haut au plus bas
 function trierParProgression(apprenants) {
@@ -241,6 +251,7 @@ module.exports = {
   rechercherParNom,
   trierParProgression,
   trierParAlphabet,
-  afficherTableauDeBord
+  afficherTableauDeBord,
+  filtrerParNiveau
 };
 
