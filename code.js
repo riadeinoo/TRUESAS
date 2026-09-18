@@ -128,7 +128,14 @@ function rechercherParNom(apprenants, terme) {
   }
   return resultats;
 }
-
+// 8. Trie une copie de la liste par ordre alphabétique du nom
+function trierParAlphabet(apprenants) {
+  let copie = apprenants.slice();
+  copie.sort(function (a, b) {
+    return a.nomComplet.localeCompare(b.nomComplet);
+  });
+  return copie;
+}
 
 // 9. Trie une copie de la liste, du pourcentage le plus haut au plus bas
 function trierParProgression(apprenants) {
