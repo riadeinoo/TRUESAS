@@ -115,4 +115,17 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
   return true;
 }
 
+// 7. Recherche un apprenant avec tout ou partie de son nom (sans casse)
+function rechercherParNom(apprenants, terme) {
+  let resultats = [];
+  let termeRecherche = terme.trim().toLowerCase();
+
+  for (let i = 0; i < apprenants.length; i++) {
+    let nom = apprenants[i].nomComplet.toLowerCase();
+    if (nom.includes(termeRecherche)) {
+      resultats.push(apprenants[i]);
+    }
+  }
+  return resultats;
+}
 
