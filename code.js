@@ -28,6 +28,11 @@ function validerResultat(jour, exercicesTermines, totalExercices) {
     console.log("Erreur : les nombres d'exercices doivent être positifs.");
     return false;
   }
+  if (exercicesTermines > totalExercices) {
+    console.log("Erreur : les exercices terminés ne peuvent pas dépasser le total proposé.");
+    return false;
+  }
+  return true;
 }
 
 // 3. Calcule tous les indicateurs de progression d'un apprenant
@@ -35,7 +40,7 @@ function calculerProgression(apprenant) {
   let totalTermines = 0;
   let totalProposes = 0;
   let challengesTermines = 0;
- 
+
   for (let i = 0; i < apprenant.resultats.length; i++) {
     let resultat = apprenant.resultats[i];
     totalTermines = totalTermines + resultat.exercicesTermines;
@@ -44,6 +49,27 @@ function calculerProgression(apprenant) {
       challengesTermines = challengesTermines + 1;
     }
   }
+
+  let pourcentage = 0;
+  if (totalProposes > 0) {
+    pourcentage = Math.round((totalTermines / totalProposes) * 100);
+  }
+
+  let niveau = "À renforcer";
+  if (pourcentage >= 80) {
+    niveau = "Solide";
+  } else if (pourcentage >= 50) {
+    niveau = "En progression";
+  }
+
+  return {
+    totalTermines: totalTermines,
+    totalProposes: totalProposes,
+    pourcentage: pourcentage,
+    challengesTermines: challengesTermines,
+    journeesRenseignees: apprenant.resultats.length,
+    niveau: niveau
+  };
 }
 
 // 4. Ajoute un apprenant en refusant les identifiants déjà utilisés
