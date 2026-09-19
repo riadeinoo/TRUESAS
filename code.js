@@ -1,5 +1,4 @@
-
-//nettoie et normalie les noms
+// 1. Nettoie et normalise les noms des apprenants
 function normaliserNom(nom) {
   if (!nom) {
     return "";
@@ -49,12 +48,12 @@ function calculerProgression(apprenant) {
       challengesTermines = challengesTermines + 1;
     }
   }
-
+// Calcul du pourcentage de progression
   let pourcentage = 0;
   if (totalProposes > 0) {
     pourcentage = Math.round((totalTermines / totalProposes) * 100);
   }
-
+// Détermination du niveau de progression
   let niveau = "À renforcer";
   if (pourcentage >= 80) {
     niveau = "Solide";
@@ -80,13 +79,14 @@ function ajouterApprenant(apprenants, id, nomComplet, ville) {
       return false;
     }
   }
+  // On crée un nouvel objet apprenant avec les informations fournies
   let nouvelApprenant = {
     id: id,
     nomComplet: normaliserNom(nomComplet),
     ville: ville ? ville.trim() : "",
     resultats: []
   };
-
+// On l'ajoute à la liste des apprenants
   apprenants.push(nouvelApprenant);
   console.log("Apprenant ajouté avec succès !");
   return true;
@@ -108,13 +108,13 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
   if (!valide) {
     return false;
   }
- 
+ // On cherche l'apprenant correspondant à l'identifiant fourni
   let apprenant = trouverParId(apprenants, id);
   if (!apprenant) {
     console.log("Erreur : apprenant introuvable.");
     return false;
   }
- 
+ // On vérifie si le jour est déjà présent dans les résultats de l'apprenant
   let journeeDejaPresente = false;
   for (let i = 0; i < apprenant.resultats.length; i++) {
     if (apprenant.resultats[i].jour === jour) {
@@ -124,7 +124,7 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
       journeeDejaPresente = true;
     }
   }
- 
+ // Si le jour n'est pas déjà présent, on ajoute un nouvel objet résultat
   if (!journeeDejaPresente) {
     apprenant.resultats.push({
       jour: jour,
@@ -133,7 +133,7 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
       challengeTermine: challengeTermine
     });
   }
- 
+ // On calcule la progression globale de l'apprenant après l'ajout du résultat
   let prog = calculerProgression(apprenant);
   console.log("Résultat du jour " + jour + " enregistré pour " + apprenant.nomComplet + ".");
   console.log(apprenant.nomComplet + " : " + prog.totalTermines + "/" + prog.totalProposes + " exercices, progression " + prog.pourcentage + "%.");
@@ -145,7 +145,6 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
 function rechercherParNom(apprenants, terme) {
   let resultats = [];
   let termeRecherche = terme.trim().toLowerCase();
-
   for (let i = 0; i < apprenants.length; i++) {
     let nom = apprenants[i].nomComplet.toLowerCase();
     if (nom.includes(termeRecherche)) {
@@ -162,6 +161,8 @@ function trierParAlphabet(apprenants) {
   });
   return copie;
 }
+
+// 9. Filtre les apprenants par niveau de progression
 function filtrerParNiveau(apprenants, niveauVoulu) {
   let resultats = [];
   for (let i = 0; i < apprenants.length; i++) {
@@ -173,7 +174,7 @@ function filtrerParNiveau(apprenants, niveauVoulu) {
   return resultats;
 }
 
-// 9. Trie une copie de la liste, du pourcentage le plus haut au plus bas
+// 10. Trie une copie de la liste, du pourcentage le plus haut au plus bas
 function trierParProgression(apprenants) {
   let copie = apprenants.slice();
   copie.sort(function (a, b) {
@@ -184,7 +185,7 @@ function trierParProgression(apprenants) {
   return copie;
 }
 
-// 10. Affiche le tableau de bord complet du groupe
+// 11. Affiche le tableau de bord complet du groupe
 function afficherTableauDeBord(apprenants) {
   console.log("\n========================================");
   console.log("      TABLEAU DE BORD - SAS CONSOLE");
@@ -221,7 +222,7 @@ function afficherTableauDeBord(apprenants) {
         joursManquants.push(jour);
       }
     }
- 
+ // On affiche les informations de l'apprenant
     console.log(
       "- " + apprenant.nomComplet + " (" + apprenant.ville + ") : " +
       prog.totalTermines + "/" + prog.totalProposes + " (" + prog.pourcentage + "%) | " +
@@ -229,7 +230,7 @@ function afficherTableauDeBord(apprenants) {
       "Challenges terminés : " + prog.challengesTermines
     );
   }
- 
+ // On calcule la moyenne de progression du groupe
   let moyenneGroupe = 0;
   if (apprenants.length > 0) {
     moyenneGroupe = Math.round(totalPourcentages / apprenants.length);
@@ -240,7 +241,7 @@ function afficherTableauDeBord(apprenants) {
   console.log("Solide : " + nombreSolide + " | En progression : " + nombreEnProgression + " | À renforcer : " + nombreARenforcer);
   console.log("========================================\n");
 }
- 
+// Exportation des fonctions pour utilisation dans d'autres modules
 module.exports = {
   normaliserNom,
   validerResultat,
