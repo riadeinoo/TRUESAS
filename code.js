@@ -19,6 +19,10 @@ function normaliserNom(nom) {
 
 // 2. Vérifie que le jour et les exercices sont cohérents
 function validerResultat(jour, exercicesTermines, totalExercices) {   
+  if (!Number.isInteger(jour) || !Number.isInteger(exercicesTermines) || !Number.isInteger(totalExercices)) {
+  console.log("Erreur : les valeurs doivent être des nombres entiers.");
+  return false;
+}
   if (jour < 1 || jour > 7) {
     console.log("Erreur : le jour doit être compris entre 1 et 7.");  // Vérifie que le jour est compris entre 1 et 7
     return false;
