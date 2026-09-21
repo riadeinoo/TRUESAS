@@ -112,12 +112,15 @@ function trouverParId(apprenants, id) {
  
 // 6. Ajoute le résultat d'une journée, ou le remplace s'il existe déjà
 function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExercices, challengeTermine) {
+  // On valide les valeurs fournies pour le jour et les exercices
   let valide = validerResultat(jour, exercicesTermines, totalExercices);
+  // Si les valeurs ne sont pas valides, on arrête l'exécution de la fonction
   if (!valide) {
     return false;
   }
  // On cherche l'apprenant correspondant à l'identifiant fourni
   let apprenant = trouverParId(apprenants, id);
+  // Si l'apprenant n'est pas trouvé, on affiche un message d'erreur et on arrête l'exécution de la fonction
   if (!apprenant) {
     console.log("Erreur : apprenant introuvable.");
     return false;
@@ -166,7 +169,7 @@ function rechercherParNom(apprenants, terme) {
 function trierParAlphabet(apprenants) {
   let copie = apprenants.slice();
   copie.sort(function (a, b) {
-    return a.nomComplet.localeCompare(b.nomComplet);
+    return a.nomComplet.localeCompare(b.nomComplet);  // Trie les noms en utilisant la méthode locale pour gérer les accents et la casse
   });
   return copie;
 }
