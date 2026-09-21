@@ -46,7 +46,9 @@ function calculerProgression(apprenant) {
   let challengesTermines = 0;
 // Parcours de tous les résultats de l'apprenant pour accumuler les totaux
   for (let i = 0; i < apprenant.resultats.length; i++) {
+    // Récupère le résultat de la journée courante
     let resultat = apprenant.resultats[i];
+    // Ajoute les exercices terminés et le total d'exercices aux compteurs
     totalTermines = totalTermines + resultat.exercicesTermines;
     totalProposes = totalProposes + resultat.totalExercices;
     if (resultat.challengeTermine === true) {
