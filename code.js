@@ -1,45 +1,46 @@
 // 1. Nettoie et normalise les noms des apprenants
 function normaliserNom(nom) {
   if (!nom) {
-    return "";
+    return "";   // Si le nom est vide ou null, retourne une chaîne vide
   }
-  nom = nom.trim().toLowerCase();
-  let mots = nom.split(" ");
-  let nomPropre = "";
+  nom = nom.trim().toLowerCase();  // Supprime les espaces en début et fin, et met en minuscules
+  let mots = nom.split(" ");    // Sépare le nom en mots individuels
+  let nomPropre = "";           
  
-  for (let i = 0; i < mots.length; i++) {
-    if (mots[i].length > 0) {
-      let premiereLettre = mots[i][0].toUpperCase();
-      let resteDuMot = mots[i].slice(1);
-      nomPropre = nomPropre + premiereLettre + resteDuMot + " ";
+  for (let i = 0; i < mots.length; i++) {  // Parcourt chaque mot du nom
+    if (mots[i].length > 0) {       
+      let premiereLettre = mots[i][0].toUpperCase();            // Met la première lettre en majuscule
+      let resteDuMot = mots[i].slice(1);                        // Récupère le reste du mot
+      nomPropre = nomPropre + premiereLettre + resteDuMot + " ";  // Concatène le mot normalisé au nom final avec un espace
     }
   }
   return nomPropre.trim();
 }
 
 // 2. Vérifie que le jour et les exercices sont cohérents
-function validerResultat(jour, exercicesTermines, totalExercices) {
+function validerResultat(jour, exercicesTermines, totalExercices) {   
   if (jour < 1 || jour > 7) {
-    console.log("Erreur : le jour doit être compris entre 1 et 7.");
+    console.log("Erreur : le jour doit être compris entre 1 et 7.");  // Vérifie que le jour est compris entre 1 et 7
     return false;
   }
-  if (exercicesTermines < 0 || totalExercices <= 0) {
+  if (exercicesTermines < 0 || totalExercices <= 0) {     // Vérifie que les nombres d'exercices sont positifs
     console.log("Erreur : les nombres d'exercices doivent être positifs.");
     return false;
   }
-  if (exercicesTermines > totalExercices) {
+  if (exercicesTermines > totalExercices) {      // Vérifie que le nombre d'exercices terminés ne dépasse pas le total proposé
     console.log("Erreur : les exercices terminés ne peuvent pas dépasser le total proposé.");
     return false;
   }
-  return true;
+  return true;  
 }
 
 // 3. Calcule tous les indicateurs de progression d'un apprenant.
 function calculerProgression(apprenant) {
+  // Initialisation des compteurs pour les exercices terminés, le total d'exercices et les challenges terminés
   let totalTermines = 0;
   let totalProposes = 0;
   let challengesTermines = 0;
-
+// Parcours de tous les résultats de l'apprenant pour accumuler les totaux
   for (let i = 0; i < apprenant.resultats.length; i++) {
     let resultat = apprenant.resultats[i];
     totalTermines = totalTermines + resultat.exercicesTermines;
@@ -50,6 +51,7 @@ function calculerProgression(apprenant) {
   }
 // Calcul du pourcentage de progression
   let pourcentage = 0;
+  // On évite la division par zéro si aucun exercice n'a été proposé  
   if (totalProposes > 0) {
     pourcentage = Math.round((totalTermines / totalProposes) * 100);
   }
@@ -58,9 +60,9 @@ function calculerProgression(apprenant) {
   if (pourcentage >= 80) {
     niveau = "Solide";
   } else if (pourcentage >= 50) {
-    niveau = "En progression";
+    niveau = "En progression"; 
   }
-
+// Retourne un objet contenant tous les indicateurs calculés pour l'apprenant
   return {
     totalTermines: totalTermines,
     totalProposes: totalProposes,
@@ -73,6 +75,7 @@ function calculerProgression(apprenant) {
 
 // 4. Ajoute un apprenant en refusant les identifiants déjà utilisés
 function ajouterApprenant(apprenants, id, nomComplet, ville) {
+  // Vérifie si l'identifiant est déjà utilisé par un autre apprenant
   for (let i = 0; i < apprenants.length; i++) {
     if (apprenants[i].id === id) {
       console.log("Erreur : cet identifiant existe déjà.");
@@ -94,6 +97,7 @@ function ajouterApprenant(apprenants, id, nomComplet, ville) {
 
 // 5. Retrouve un apprenant à partir de son identifiant
 function trouverParId(apprenants, id) {
+  // Parcourt la liste des apprenants pour trouver celui dont l'identifiant correspond à celui fourni
   for (let i = 0; i < apprenants.length; i++) {
     if (apprenants[i].id === id) {
       return apprenants[i];
@@ -114,6 +118,7 @@ function enregistrerResultat(apprenants, id, jour, exercicesTermines, totalExerc
     console.log("Erreur : apprenant introuvable.");
     return false;
   }
+
  // On vérifie si le jour est déjà présent dans les résultats de l'apprenant
   let journeeDejaPresente = false;
   for (let i = 0; i < apprenant.resultats.length; i++) {
@@ -191,18 +196,18 @@ function afficherTableauDeBord(apprenants) {
   console.log("      TABLEAU DE BORD - SAS CONSOLE");
   console.log("========================================");
   console.log("Nombre total d'apprenants : " + apprenants.length);
- 
+ // On trie la liste par progression pour l'affichage
   let listeTriee = trierParProgression(apprenants);
   let totalPourcentages = 0;
   let nombreSolide = 0;
   let nombreEnProgression = 0;
   let nombreARenforcer = 0;
- 
+ // On parcourt la liste triée pour afficher les informations de chaque apprenant
   for (let i = 0; i < listeTriee.length; i++) {
     let apprenant = listeTriee[i];
     let prog = calculerProgression(apprenant);
     totalPourcentages = totalPourcentages + prog.pourcentage;
- 
+ // On compte le nombre d'apprenants par niveau
     if (prog.niveau === "Solide") {
       nombreSolide++;
     } else if (prog.niveau === "En progression") {
@@ -211,13 +216,15 @@ function afficherTableauDeBord(apprenants) {
       nombreARenforcer++;
     }
  
-    // On cherche les jours (1 à 7) qui n'ont pas encore de résultat
+    // On crée un tableau des jours renseignés par l'apprenant
     let joursRenseignes = [];
     for (let j = 0; j < apprenant.resultats.length; j++) {
       joursRenseignes.push(apprenant.resultats[j].jour);
     }
+    // On crée un tableau des jours manquants
     let joursManquants = [];
     for (let jour = 1; jour <= 7; jour++) {
+      // Si le jour n'est pas dans la liste des jours renseignés, on l'ajoute aux jours manquants
       if (joursRenseignes.indexOf(jour) === -1) {
         joursManquants.push(jour);
       }
@@ -235,7 +242,7 @@ function afficherTableauDeBord(apprenants) {
   if (apprenants.length > 0) {
     moyenneGroupe = Math.round(totalPourcentages / apprenants.length);
   }
- 
+ // On affiche les statistiques globales du groupe
   console.log("----------------------------------------");
   console.log("Progression moyenne du groupe : " + moyenneGroupe + "%");
   console.log("Solide : " + nombreSolide + " | En progression : " + nombreEnProgression + " | À renforcer : " + nombreARenforcer);

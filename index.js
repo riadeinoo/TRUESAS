@@ -4,9 +4,9 @@ const readline = require("readline/promises");
 const apprenants = require("./info");
 const fonctions = require("./code");
  
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+const rl = readline.createInterface({    // <- crée une interface pour lire les entrées clavier
+  input: process.stdin,  // <- lit depuis l'entrée standard (clavier)
+  output: process.stdout  // <- écrit vers la sortie standard (console)
 });
 
 // Affiche le menu et retourne le choix tapé par l'utilisateur
@@ -27,7 +27,6 @@ async function afficherMenu() {
   return choix.trim();
 }
 
-
 // Affiche le tableau de bord complet du groupe
 function afficherListe() {
   console.log("\n--- LISTE DES APPRENANTS ---");
@@ -46,34 +45,39 @@ function afficherListe() {
 // Action pour ajouter un apprenant
 async function actionAjouter() {
   let idTexte = await rl.question("Identifiant de l'apprenant (nombre) : ");
-  let id = parseInt(idTexte);
-  if (isNaN(id)) {
-    console.log("Erreur : identifiant invalide.\n");
+  let id = parseInt(idTexte);   // Convertit la saisie en nombre entier
+  if (isNaN(id)) {     // Vérifie si la conversion a échoué (saisie non numérique)
+    console.log("Erreur : identifiant invalide.\n");         // Affiche un message d'erreur
     return;
+    
   }
   let nom = await rl.question("Nom complet : ");
   let ville = await rl.question("Ville : ");
-  fonctions.ajouterApprenant(apprenants, id, nom, ville);
+  fonctions.ajouterApprenant(apprenants, id, nom, ville);      // Appelle la fonction pour ajouter l'apprenant
   console.log("");
 }
  
 // Action pour consulter un apprenant par identifiant
 async function actionConsulter() {
-  let idTexte = await rl.question("Identifiant de l'apprenant à consulter : ");
-  let id = parseInt(idTexte);
-  let apprenant = fonctions.trouverParId(apprenants, id);
- 
-  if (!apprenant) {
-    console.log("Apprenant introuvable.\n");
+  let idTexte = await rl.question("Identifiant de l'apprenant à consulter : ");    // Demande à l'utilisateur de saisir l'identifiant
+  let id = parseInt(idTexte);                 // Convertit la saisie en nombre entier
+  if (isNaN(id)) {                            // Vérifie si la conversion a échoué (saisie non numérique)
+    console.log("Erreur : identifiant invalide.\n");         // Affiche un message d'erreur
     return;
   }
+  let apprenant = fonctions.trouverParId(apprenants, id);   // Recherche l'apprenant correspondant à l'identifiant
  
+  if (!apprenant) {
+    console.log("Apprenant introuvable.\n");   
+    return;
+  }
+ // Si l'apprenant est trouvé, on calcule sa progression et on affiche ses informations
   let prog = fonctions.calculerProgression(apprenant);
   console.log("\n--- FICHE APPRENANT ---");
   console.log("ID : " + apprenant.id);
   console.log("Nom : " + apprenant.nomComplet);
   console.log("Ville : " + apprenant.ville);
-  console.log("Progression : " + prog.pourcentage + "% (" + prog.totalTermines + "/" + prog.totalProposes + " exercices)");
+  console.log("Progression : " + prog.pourcentage + "% (" + prog.totalTermines + "/" + prog.totalProposes + " exercices)");  // Affiche le pourcentage de progression et le nombre d'exercices terminés sur le total proposé
   console.log("Niveau : " + prog.niveau);
   console.log("Challenges terminés : " + prog.challengesTermines);
   console.log("Journées renseignées : " + prog.journeesRenseignees + "\n");
@@ -81,7 +85,7 @@ async function actionConsulter() {
 // Action pour rechercher un apprenant par nom
 async function actionRecherche() {
   let terme = await rl.question("Entrez tout ou partie du nom à rechercher : ");
-  let resultats = fonctions.rechercherParNom(apprenants, terme);
+  let resultats = fonctions.rechercherParNom(apprenants, terme);   // Appelle la fonction pour rechercher les apprenants correspondant au terme saisi
  
   console.log("\n--- RÉSULTATS DE RECHERCHE (" + resultats.length + ") ---");
   for (let i = 0; i < resultats.length; i++) {
@@ -108,10 +112,10 @@ async function actionFiltrer() {
 
 // Action pour trier les apprenants par ordre alphabétique
 function actionTrierAlphabet() {
-  let tri = fonctions.trierParAlphabet(apprenants);
+  let tri = fonctions.trierParAlphabet(apprenants);     // Appelle la fonction pour trier les apprenants par ordre alphabétique
   console.log("\n--- TRI PAR ORDRE ALPHABÉTIQUE ---");
   for (let i = 0; i < tri.length; i++) {
-    console.log((i + 1) + ". " + tri[i].nomComplet + " (" + tri[i].ville + ")");
+    console.log((i + 1) + ". " + tri[i].nomComplet + " (" + tri[i].ville + ")");    // Affiche le nom complet et la ville de chaque apprenant trié
   }
   console.log("");
 }
@@ -120,7 +124,7 @@ function actionTrierAlphabet() {
 async function actionEnregistrer() {
   let idTexte = await rl.question("Identifiant de l'apprenant : ");
   let id = parseInt(idTexte);
-  let apprenant = fonctions.trouverParId(apprenants, id);
+  let apprenant = fonctions.trouverParId(apprenants, id);   // Recherche l'apprenant correspondant à l'identifiant fourni
 
   if (!apprenant) {
     console.log("Erreur : apprenant non trouvé.\n");
@@ -154,7 +158,6 @@ function actionTrierProgression() {
   console.log("");
 }
 
-// Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
 // Boucle principale : affiche le menu jusqu'à ce que l'utilisateur choisisse 0
 async function demarrer() {
   let continuer = true;

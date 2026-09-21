@@ -1,7 +1,4 @@
 
-
-
-
 // Data
 let apprenants = [
   {
